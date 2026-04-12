@@ -98,7 +98,7 @@ def create_schema_on_postgresql(connection : object) -> None:
 def create_table_on_postgresql(connection : object) -> None:
 
     query = """
-    DROP TABLE IF EXISTS my_database.my_schema_sor.tb_sor_individual_income_tax_2014;
+    DROP TABLE IF EXISTS my_database.my_schema_sor.tb_sor_individual_income_tax_2014 CASCADE;
 
     CREATE TABLE my_database.my_schema_sor.tb_sor_individual_income_tax_2014
     (
