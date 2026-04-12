@@ -1,0 +1,16 @@
+version: '3.8'
+
+name: usp-fed-data-pipeline
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: dockerfile
+    
+    volumes:
+      - ..:/workspace:cached
+    
+    tty: true
+
+    command: /bin/sh -c "while sleep 1000; do :; done"
