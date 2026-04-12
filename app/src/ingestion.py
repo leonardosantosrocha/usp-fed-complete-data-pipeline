@@ -85,9 +85,9 @@ def authenticate_on_postgresql() -> object:
 def create_schema_on_postgresql(connection : object) -> None:
 
     query = """
-    CREATE SCHEMA my_database.my_schema_sor;
-    CREATE SCHEMA my_database.my_schema_sot;
-    CREATE SCHEMA my_database.my_schema_spec;
+    CREATE SCHEMA IF NOT EXISTS my_database.my_schema_sor;
+    CREATE SCHEMA IF NOT EXISTS my_database.my_schema_sot;
+    CREATE SCHEMA IF NOT EXISTS my_database.my_schema_spec;
     """
 
     connection.execute(query)
