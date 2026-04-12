@@ -528,7 +528,7 @@ def main():
     insert_into_on_postgresql(postgres_connection)
     postgres_connection.close()
 
-    time.sleep(900)
+    #time.sleep(900)
 
 if __name__ == "__main__":
     main()
