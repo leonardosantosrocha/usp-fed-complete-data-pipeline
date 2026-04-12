@@ -208,12 +208,11 @@ __marimo__/
 
 # Data files
 *.csv
+/app/data
 
 .env
 .venv
 kaggle.json
 utilidades.md
-
-app/data
 
 .idea
