@@ -1,0 +1,45 @@
+services:
+
+  postgres:
+    image: postgres:18
+    container_name: postgres-app
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "${POSTGRES_PORTS}"
+    volumes:
+      - postgres_data:/var/lib/postgresql
+    networks:
+      - data-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  ingestion:
+    build: ./app
+    container_name: ingestion-app
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - data-network
+    volumes:
+      - ./app/data:/app/data
+    env_file:
+      - .env
+    environment:
+      PG_HOST: ${POSTGRES_HOST}
+      PG_PORT: ${POSTGRES_PORT}
+      PG_DB: ${POSTGRES_DB}
+      PG_USER: ${POSTGRES_USER}
+      PG_PASSWORD: ${POSTGRES_PASSWORD}
+
+volumes:
+  postgres_data:
+
+networks:
+  data-network:
