@@ -1,0 +1,40 @@
+version: 2
+
+sources:
+  - name: income_tax_raw
+    description: "Camada de ingestão contendo o conteúdo original da fonte de dados."
+    schema: my_schema_sor
+    loader: "/app/src/ingestion.py"
+
+    tables:
+      - name: tb_sor_individual_income_tax_2014
+        description: "Tax income"
+        columns:
+          - name: statefips
+            description: "Código identificador do State Federal Infomration Processing System (FIPS)."
+            tests:
+              - not_null
+          - name: state
+            description: "Estado associado ao Zip Code."
+            tests:
+              - not_null
+          - name: agi_stub
+            description: "Código que representa a faixa de renda"
+            tests:
+              - not_null
+          - name: n1
+            description: "Número de contribuintes"
+            tests:
+              - not_null
+          - name: a00100
+            description: "Quantidade de dinheiro total de determinado grupo"
+            tests:
+              - not_null
+          - name: a06500
+            description: "Valor do imposto pago"
+            tests:
+              - not_null
+          - name: year
+            description: "Ano do registro"
+            tests:
+              - not_null
