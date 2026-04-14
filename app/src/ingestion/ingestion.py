@@ -499,7 +499,7 @@ def insert_into_on_postgresql(connection : object) -> None:
         a11902,
         year
     FROM 
-        read_csv('./data/tb-staging-individual-income-tax-2014.csv')
+        read_csv('/app/data/tb-staging-individual-income-tax-2014.csv')
     """
 
     connection.execute(query)
@@ -512,11 +512,11 @@ def main():
     api = authenticate_on_kaggle()
 
     dataset_name = "irs/individual-income-tax-statistics"
-    to_path = "./data/"
+    to_path = "/app/data/"
     extract_data_from_kaggle(api = api, datasetName = dataset_name, toPath = to_path)
 
-    from_path = "./data/"
-    to_path = "./data/"
+    from_path = "/app/data/"
+    to_path = "/app/data/"
     filter_required_file(fromPath = from_path, toPath = to_path)
 
     postgres_connection = authenticate_on_postgresql()
