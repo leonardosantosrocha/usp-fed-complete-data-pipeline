@@ -20,7 +20,9 @@ services:
       retries: 10
 
   ingestion:
-    build: ./app
+    build:
+      context: ./app/src/ingestion
+      dockerfile: Dockerfile
     container_name: ingestion-app
     depends_on:
       postgres:
@@ -41,13 +43,13 @@ services:
   transform:
     container_name: dbt-transform
     build:
-      context: ./incomes_dbt
+      context: ./app/src/incomes_dbt
       dockerfile: Dockerfile
     env_file:
       - .env
     volumes:
-        - ./incomes_dbt:/usr/app/dbt
-        - ./incomes_dbt/profiles.yml:/root/.dbt/profiles.yml
+        - ./app/src/incomes_dbt:/usr/app/dbt
+        - ./app/src/incomes_dbt/profiles.yml:/root/.dbt/profiles.yml
     environment:
         - DBT_PROFILES_DIR=/root/.dbt
         - POSTGRES_DB=${POSTGRES_DB}
