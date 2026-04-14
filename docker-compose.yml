@@ -21,8 +21,8 @@ services:
 
   ingestion:
     build:
-      context: ./app/src/ingestion
-      dockerfile: Dockerfile
+      context: ./app/
+      dockerfile: src/ingestion/Dockerfile
     container_name: ingestion-app
     depends_on:
       postgres:
@@ -43,8 +43,8 @@ services:
   transform:
     container_name: dbt-transform
     build:
-      context: ./app/src/incomes_dbt
-      dockerfile: Dockerfile
+      context: ./app/
+      dockerfile: src/incomes_dbt/Dockerfile
     env_file:
       - .env
     volumes:
