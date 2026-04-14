@@ -46,7 +46,7 @@ def filter_required_file(fromPath : str, toPath : str) -> None:
 
             fromFilePath = fromPath + file
 
-            toFilePath = toPath + f"tb-sor-individual-income-tax-{file[0:4]}.csv"
+            toFilePath = toPath + f"tb-staging-individual-income-tax-{file[0:4]}.csv"
 
             os.rename(fromFilePath, toFilePath)
 
@@ -85,22 +85,20 @@ def authenticate_on_postgresql() -> object:
 def create_schema_on_postgresql(connection : object) -> None:
 
     query = """
-    CREATE SCHEMA IF NOT EXISTS my_database.my_schema_sor;
-    CREATE SCHEMA IF NOT EXISTS my_database.my_schema_sot;
-    CREATE SCHEMA IF NOT EXISTS my_database.my_schema_spec;
+    CREATE SCHEMA IF NOT EXISTS my_database.staging;
     """
 
     connection.execute(query)
 
-    print(f"\n5. Os schemas 'my_schema_sor', 'my_schema_sot' e 'my_schema_spec' foram criados no Postgres com sucesso...")
+    print(f"\n5. O schema 'staging' foi criado no PostgreSQL com sucesso...")
 
 
 def create_table_on_postgresql(connection : object) -> None:
 
     query = """
-    DROP TABLE IF EXISTS my_database.my_schema_sor.tb_sor_individual_income_tax_2014 CASCADE;
+    DROP TABLE IF EXISTS my_database.staging.tb_staging_individual_income_tax_2014 CASCADE;
 
-    CREATE TABLE my_database.my_schema_sor.tb_sor_individual_income_tax_2014
+    CREATE TABLE my_database.staging.tb_staging_individual_income_tax_2014
     (
         statefips TEXT,
         state TEXT,
@@ -235,13 +233,13 @@ def create_table_on_postgresql(connection : object) -> None:
 
     connection.execute(query)
 
-    print(f"\n6. A tabela 'my_database.my_schema_sor.tb_sor_individual_income_tax_2014' foi criada no PostgreSQL com sucesso...")
+    print(f"\n6. A tabela 'my_database.staging.tb_staging_individual_income_tax_2014' foi criada no PostgreSQL com sucesso...")
 
 
 def insert_into_on_postgresql(connection : object) -> None:
 
     query = """
-    INSERT INTO my_database.my_schema_sor.tb_sor_individual_income_tax_2014
+    INSERT INTO my_database.staging.tb_staging_individual_income_tax_2014
     (
         statefips,
         state,
@@ -502,12 +500,12 @@ def insert_into_on_postgresql(connection : object) -> None:
         a11902,
         year
     FROM 
-        read_csv('../data/tb-sor-individual-income-tax-2014.csv')
+        read_csv('../data/tb-staging-individual-income-tax-2014.csv')
     """
 
     connection.execute(query)
 
-    print(f"\n7. Os dados foram inseridos na tabela 'my_database.my_schema_sor.tb_sor_individual_income_tax_2014' com sucesso...")
+    print(f"\n7. Os dados foram inseridos na tabela 'my_database.staging.tb_staging_individual_income_tax_2014' com sucesso...")
 
 
 def main():
@@ -528,7 +526,6 @@ def main():
     insert_into_on_postgresql(postgres_connection)
     postgres_connection.close()
 
-    #time.sleep(900)
 
 if __name__ == "__main__":
     main()
