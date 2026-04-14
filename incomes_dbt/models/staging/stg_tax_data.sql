@@ -1,5 +1,5 @@
 WITH source AS (
-    SELECT * FROM {{ source('income_tax_raw', 'tb_sor_individual_income_tax_2014')}}
+    SELECT * FROM {{ source('income_tax_raw', 'tb_staging_individual_income_tax_2014')}}
 ),
 
 renamed AS (

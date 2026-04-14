@@ -3,11 +3,11 @@ version: 2
 sources:
   - name: income_tax_raw
     description: "Camada de ingestão contendo o conteúdo original da fonte de dados."
-    schema: my_schema_sor
+    schema: staging
     loader: "/app/src/ingestion.py"
 
     tables:
-      - name: tb_sor_individual_income_tax_2014
+      - name: tb_staging_individual_income_tax_2014
         description: "Tax income"
         columns:
           - name: statefips
