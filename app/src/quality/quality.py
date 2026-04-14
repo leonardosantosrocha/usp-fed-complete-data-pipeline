@@ -77,7 +77,7 @@ def setup_expectation_suite(context, name):
     # ----------------------------
     # 3. Valores categóricos
     # ----------------------------
-    valid_fips = {str(i).zfill(2) for i in range(1, 57)}
+    valid_fips = {i for i in range(1, 57)}
     suite.add_expectation(
         ExpectationConfiguration(
             expectation_type="expect_column_values_to_be_in_set",
