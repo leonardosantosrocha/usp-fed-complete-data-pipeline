@@ -84,9 +84,9 @@ services:
     command:
       bash -c "\
           dbt docs generate \
-            --profiles-dir /app/incomes_dbt && \
+            --profiles-dir /app/dbt && \
           dbt docs serve \
-              --profiles-dir /app/incomes_dbt \
+              --profiles-dir /app/dbt \
               --port 8081 --host 0.0.0.0"
     networks:
       - data-network

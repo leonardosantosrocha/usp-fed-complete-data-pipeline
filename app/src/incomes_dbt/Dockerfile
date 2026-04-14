@@ -9,7 +9,8 @@ RUN apt-get update && \
 RUN pip install --no-cache-dir dbt-postgres
 
 CMD bash -c "\
-    dbt debug --profiles-dir /app/incomes_dbt && \
-    dbt deps --profiles-dir /app/incomes_dbt && \
-    dbt run --profiles-dir /app/incomes_dbt && \
-    dbt test --profiles-dir /app/incomes_dbt"
+    dbt debug --profiles-dir /app/dbt && \
+    dbt deps --profiles-dir /app/dbt && \
+    dbt seed --profiles-dir /app/dbt && \
+    dbt run --profiles-dir /app/dbt && \
+    dbt test --profiles-dir /app/dbt"
