@@ -1,0 +1,15 @@
+models:
+  - name: fact_income_by_state_bracket
+    columns:
+      - name: state_key
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_states')
+              field: state_key
+      - name: income_bracket_key
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_income_brackets')
+              field: income_bracket_key
