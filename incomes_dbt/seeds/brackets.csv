@@ -1,0 +1,7 @@
+agi_stub,income_bracket_label,income_bracket_min,income_bracket_max,income_bracket_order
+1,"$1 under $25,000",1,24999,1
+2,"$25,000 under $50,000",25000,49999,2
+3,"$50,000 under $75,000",50000,74999,3
+4,"$75,000 under $100,000",75000,99999,4
+5,"$100,000 under $200,000",100000,199999,5
+6,"$200,000 or more",200000,-1,6

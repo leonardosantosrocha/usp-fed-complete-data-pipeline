@@ -1,5 +1,4 @@
 
-*.csv
 /app/data
 .env
 .venv
