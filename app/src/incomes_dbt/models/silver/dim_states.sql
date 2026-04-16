@@ -1,4 +1,4 @@
-{{ config(materialized='table')}}
+{{ config(materialized='table') }}
 
 with raw_seed as (
     select * from {{ ref('states') }}
