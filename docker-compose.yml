@@ -10,7 +10,7 @@ services:
     ports:
       - "${POSTGRES_PORTS}"
     volumes:
-      - postgres_data:/var/lib/postgresql
+      - ./postgres_data:/var/lib/postgresql
     networks:
       - data-network
     healthcheck:
@@ -20,7 +20,9 @@ services:
       retries: 10
 
   ingestion:
-    build: ./app
+    build:
+      context: ./app/
+      dockerfile: src/ingestion/Dockerfile
     container_name: ingestion-app
     depends_on:
       postgres:
@@ -41,15 +43,14 @@ services:
   transform:
     container_name: dbt-transform
     build:
-      context: ./incomes_dbt
-      dockerfile: Dockerfile
+      context: ./app/
+      dockerfile: src/incomes_dbt/Dockerfile
     env_file:
       - .env
     volumes:
-        - ./incomes_dbt:/usr/app/dbt
-        - ./incomes_dbt/profiles.yml:/root/.dbt/profiles.yml
+        - ./app/src/incomes_dbt:/app/dbt
     environment:
-        - DBT_PROFILES_DIR=/root/.dbt
+        - DBT_PROFILES_DIR=/app/dbt
         - POSTGRES_DB=${POSTGRES_DB}
         - POSTGRES_HOST=${POSTGRES_HOST}
         - POSTGRES_USER=${POSTGRES_USER}
@@ -58,10 +59,39 @@ services:
     depends_on:
       ingestion:
         condition: service_completed_successfully
-    command: >
-      sh -c "dbt run && dbt test"
     networks:
       - data-network
+      
+  dbt-docs:
+    container_name: dbt-docs
+    build:
+      context: ./app/
+      dockerfile: src/incomes_dbt/Dockerfile
+    env_file:
+      - .env
+    volumes:
+        - ./app/src/incomes_dbt:/app/dbt
+    environment:
+        - DBT_PROFILES_DIR=/app/dbt
+        - POSTGRES_DB=${POSTGRES_DB}
+        - POSTGRES_HOST=${POSTGRES_HOST}
+        - POSTGRES_USER=${POSTGRES_USER}
+        - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+        - POSTGRES_PORT=${POSTGRES_PORT}
+    depends_on:
+      transform:
+        condition: service_completed_successfully
+    command:
+      bash -c "\
+          dbt docs generate \
+            --profiles-dir /app/dbt && \
+          dbt docs serve \
+              --profiles-dir /app/dbt \
+              --port 8081 --host 0.0.0.0"
+    networks:
+      - data-network
+    ports:
+      - "8081:8081"
 
 volumes:
   postgres_data:

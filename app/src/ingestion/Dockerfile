@@ -2,14 +2,12 @@ FROM python:3.11-slim
 
 WORKDIR /app
 
-COPY requirements.txt .
+COPY src/ingestion/requirements.txt .
 
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY src/ ./src/
-
-COPY data/ ./data/
+COPY src/ingestion/ingestion.py .
 
 ENV PYTHONUNBUFFERED=1
 
-CMD ["python", "src/ingestion.py", "bash"]
+CMD ["python", "ingestion.py"]
