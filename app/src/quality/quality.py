@@ -264,7 +264,7 @@ if __name__ == "__main__":
     )
     run(
         {
-            "raw": {"path": "/app/data/01_raw/"},
+            "raw": {"path": "/app/data/"},
             "quality": {
                 "expectation_suite_name": "irs_income_tax_expectation_suite",
                 "asset_name": "irs_income_tax_asset",
