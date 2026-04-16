@@ -93,6 +93,17 @@ services:
     ports:
       - "8081:8081"
 
+  quality:
+    container_name: quality-app
+    build:
+      context: ./app
+      dockerfile: src/quality/quality.Dockerfile
+    depends_on:
+      ingestion:
+        condition: service_completed_successfully
+    volumes:
+      - ./app/data:/app/data
+      - ./app/src/quality:/app/src/quality
 volumes:
   postgres_data:
 
