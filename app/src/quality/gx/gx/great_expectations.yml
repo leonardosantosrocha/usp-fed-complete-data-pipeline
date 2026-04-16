@@ -94,7 +94,7 @@ data_docs_sites:
       class_name: DefaultSiteIndexBuilder
 
 anonymous_usage_statistics:
-  data_context_id: 23042135-6f95-47fd-813e-39510f4039b1
+  data_context_id: c110f52c-09fd-43bf-a0c4-207604de0037
   enabled: true
 fluent_datasources:
   irs_pandas_datasource:
@@ -105,7 +105,7 @@ fluent_datasources:
         batching_regex: .*\.csv
         sep: ','
         header: 0
-    base_directory: /app/data/01_raw
+    base_directory: /app/data
 notebooks:
 include_rendered_content:
   globally: false
