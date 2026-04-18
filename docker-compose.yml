@@ -1,5 +1,4 @@
 services:
-
   postgres:
     image: postgres:18
     container_name: postgres-app
@@ -10,7 +9,7 @@ services:
     ports:
       - "${POSTGRES_PORTS}"
     volumes:
-      - ./postgres_data:/var/lib/postgresql
+      - postgres_data:/var/lib/postgresql
     networks:
       - data-network
     healthcheck:
@@ -30,15 +29,9 @@ services:
     networks:
       - data-network
     volumes:
-      - ./app/data:/app/data
+      - app_data:/app/data
     env_file:
       - .env
-    environment:
-      PG_HOST: ${POSTGRES_HOST}
-      PG_PORT: ${POSTGRES_PORT}
-      PG_DB: ${POSTGRES_DB}
-      PG_USER: ${POSTGRES_USER}
-      PG_PASSWORD: ${POSTGRES_PASSWORD}
 
   transform:
     container_name: dbt-transform
@@ -48,20 +41,15 @@ services:
     env_file:
       - .env
     volumes:
-        - ./app/src/incomes_dbt:/app/dbt
+      - ./app/src/incomes_dbt:/app/dbt
     environment:
-        - DBT_PROFILES_DIR=/app/dbt
-        - POSTGRES_DB=${POSTGRES_DB}
-        - POSTGRES_HOST=${POSTGRES_HOST}
-        - POSTGRES_USER=${POSTGRES_USER}
-        - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-        - POSTGRES_PORT=${POSTGRES_PORT}
+      - DBT_PROFILES_DIR=/app/dbt
     depends_on:
       ingestion:
         condition: service_completed_successfully
     networks:
       - data-network
-      
+
   dbt-docs:
     container_name: dbt-docs
     build:
@@ -70,24 +58,18 @@ services:
     env_file:
       - .env
     volumes:
-        - ./app/src/incomes_dbt:/app/dbt
+      - ./app/src/incomes_dbt:/app/dbt
     environment:
-        - DBT_PROFILES_DIR=/app/dbt
-        - POSTGRES_DB=${POSTGRES_DB}
-        - POSTGRES_HOST=${POSTGRES_HOST}
-        - POSTGRES_USER=${POSTGRES_USER}
-        - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-        - POSTGRES_PORT=${POSTGRES_PORT}
+      - DBT_PROFILES_DIR=/app/dbt
     depends_on:
       transform:
         condition: service_completed_successfully
     command:
-      bash -c "\
-          dbt docs generate \
-            --profiles-dir /app/dbt && \
-          dbt docs serve \
-              --profiles-dir /app/dbt \
-              --port 8081 --host 0.0.0.0"
+      - bash
+      - -c
+      - |
+        dbt docs generate --profiles-dir /app/dbt && 
+        dbt docs serve --profiles-dir /app/dbt --port 8081 --host 0.0.0.0
     networks:
       - data-network
     ports:
@@ -102,10 +84,16 @@ services:
       ingestion:
         condition: service_completed_successfully
     volumes:
-      - ./app/data:/app/data
-      - ./app/src/quality:/app/src/quality
+      - app_data:/app/data
+      - quality_data:/app/src/quality
+    networks:
+      - data-network
+
 volumes:
   postgres_data:
+  app_data:
+  quality_data:
 
 networks:
   data-network:
+    driver: bridge
