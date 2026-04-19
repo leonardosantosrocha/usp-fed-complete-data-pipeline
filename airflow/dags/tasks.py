@@ -73,13 +73,11 @@ def dbt_tasks():
 
     dbt_run >> dbt_test >> dbt_docs
 
-def run_gx():
+def run_gx_task():
     return BashOperator(
         task_id="run_great_expectations",
         bash_command="python /opt/app/src/quality/quality.py",
     )
-
-
 
 def alert_on_failure():
     ## TODO: Implementar envio de email usando SMTP ou outro serviço de notificação

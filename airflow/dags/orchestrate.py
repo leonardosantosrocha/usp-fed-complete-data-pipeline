@@ -1,6 +1,6 @@
 from airflow import DAG
 from datetime import datetime
-from tasks import wait_db_task, dbt_tasks, ingestion_task, fail_alert
+from tasks import wait_db_task, dbt_tasks, ingestion_task, fail_alert, run_gx_task
 
 
 with DAG(
@@ -12,4 +12,4 @@ with DAG(
     default_args={"retries": 3},
 ) as dag:
 
-    wait_db_task() >> ingestion_task() >> dbt_tasks() >> fail_alert()
+    wait_db_task() >> ingestion_task() >> dbt_tasks() >> run_gx_task() >> fail_alert()
