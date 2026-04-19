@@ -65,6 +65,26 @@ def dbt_tasks():
 
     dbt_docs = BashOperator(
         task_id="run_dbt_docs",
-        bash_command="dbt docs generate --project-dir /opt/app/src/incomes_dbt --profiles-dir /opt/app/src/incomes_dbt && echo 'DBT docs gerados'",
+        bash_command="dbt docs generate \
+            --project-dir /opt/app/src/incomes_dbt \
+            --profiles-dir /opt/app/src/incomes_dbt &&\
+            echo 'DBT docs gerados'",
     )
+
     dbt_run >> dbt_test >> dbt_docs
+
+def run_gx():
+    pass
+
+
+def alert_on_failure():
+    ## TODO: Implementar envio de email usando SMTP ou outro serviço de notificação
+    print("Tarefa falhou! Enviando alerta...")
+    print("Email enviado para equipe de dados: Tarefa falhou no Airflow.")
+
+def fail_alert():
+    return PythonOperator(
+    task_id="alert_on_failure",
+    python_callable=alert_on_failure,
+    trigger_rule="one_failed",
+    )

@@ -1,6 +1,6 @@
 from airflow import DAG
 from datetime import datetime
-from tasks import wait_db_task, dbt_tasks, ingestion_task
+from tasks import wait_db_task, dbt_tasks, ingestion_task, fail_alert
 
 
 with DAG(
@@ -9,6 +9,7 @@ with DAG(
     schedule=None,
     catchup=False,
     tags=["ingestion"],
+    default_args={"retries": 3},
 ) as dag:
 
-    wait_db_task() >> ingestion_task() >> dbt_tasks()
+    wait_db_task() >> ingestion_task() >> dbt_tasks() >> fail_alert()
