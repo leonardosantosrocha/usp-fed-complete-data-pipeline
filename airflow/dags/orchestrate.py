@@ -2,16 +2,17 @@ from airflow import DAG
 from airflow.operators.python import PythonOperator
 from airflow.operators.bash import BashOperator
 from datetime import datetime
+import os
 import time
 import psycopg2
 
 
 def wait_for_postgres(
-    host="postgres-app",
-    port=5432,
-    database="incomes_db",
-    user="admin",
-    password="admin",
+    host=os.getenv("POSTGRES_HOST", "postgres-app"),
+    port=int(os.getenv("POSTGRES_PORT", 5432)),
+    database=os.getenv("POSTGRES_DB", "incomes_db"),
+    user=os.getenv("POSTGRES_USER", "admin"),
+    password=os.getenv("POSTGRES_PASSWORD", "admin"),
     timeout=60,
     interval=3,
 ):
