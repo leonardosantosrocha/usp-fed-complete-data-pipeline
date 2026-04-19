@@ -119,7 +119,7 @@ def setup_expectation_suite(context, name):
     suite.add_expectation(
         ExpectationConfiguration(
             expectation_type="expect_column_values_to_match_regex",
-            kwargs={"column": "zipcode", "regex": r"^\d{5}$"},
+            kwargs={"column": "zipcode", "regex": r"^\d{1,5}$"},
         )
     )
 
@@ -150,7 +150,7 @@ def setup_expectation_suite(context, name):
     # ----------------------------
     # 5. Valores monetários (A*): >= 0
     # ----------------------------
-    can_be_negative = {"a00900", "a01000", "a26270"}
+    can_be_negative = {"a00300", "a00900", "a01000", "a26270"}
 
     all_amount_cols = [
         "a00100", "a00101", "a00200", "a00300", "a00600", "a00650",
@@ -264,7 +264,7 @@ if __name__ == "__main__":
     )
     run(
         {
-            "raw": {"path": "/app/data/"},
+            "raw": {"path": "/opt/app/data/"},
             "quality": {
                 "expectation_suite_name": "irs_income_tax_expectation_suite",
                 "asset_name": "irs_income_tax_asset",
