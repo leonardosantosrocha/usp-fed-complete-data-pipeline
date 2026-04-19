@@ -7,24 +7,34 @@ RUN apt-get update && apt-get install -y \
     gcc \
     build-essential \
     libpq-dev \
-    && apt-get clean
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+# Cria estrutura necessária com permissões corretas
+RUN mkdir -p /opt/app /opt/app/data \
+    && chown -R airflow:0 /opt/app \
+    && chmod -R 775 /opt/app
 
 USER airflow
 
-COPY ./app /opt/app
+# Copia apenas requirements primeiro (melhora cache)
+COPY ./app/src/ingestion/requirements.txt /requirements_ingestion.txt
+COPY ./app/src/quality/requirements.txt /requirements_quality.txt
+COPY ./app/src/incomes_dbt/requirements.txt /requirements_dbt.txt
 
-# Instala dependências Python
-RUN pip install --no-cache-dir -r /opt/app/src/ingestion/requirements.txt && \
-    pip install --no-cache-dir -r /opt/app/src/quality/requirements.txt && \
-    pip install --no-cache-dir -r /opt/app/src/incomes_dbt/requirements.txt
+RUN pip install --no-cache-dir -r /requirements_ingestion.txt && \
+    pip install --no-cache-dir -r /requirements_quality.txt && \
+    pip install --no-cache-dir -r /requirements_dbt.txt
+
+# Copia aplicação
+COPY ./app /opt/app
 
 USER root
 
-RUN mkdir -p /opt/airflow/logs/scheduler /opt/airflow/dags /opt/airflow/plugins && \
-    chown -R airflow:0 /opt/airflow && \
-    chmod -R 775 /opt/airflow
+# Ajusta permissões finais (sem 777 global)
+RUN chown -R airflow:0 /opt/app /opt/airflow && \
+    chmod -R 775 /opt/app /opt/airflow
 
 USER airflow
 
-# PYTHONPATH correto e resiliente
 ENV PYTHONPATH="/opt/app:${PYTHONPATH:-}"

@@ -1,0 +1,38 @@
+[2026-04-19T16:24:28.823+0000] {local_task_job_runner.py:120} INFO - ::group::Pre task execution logs
+[2026-04-19T16:24:28.850+0000] {taskinstance.py:2076} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: orchestrate_ingestion.run_ingestion manual__2026-04-19T16:24:27.259092+00:00 [queued]>
+[2026-04-19T16:24:28.856+0000] {taskinstance.py:2076} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: orchestrate_ingestion.run_ingestion manual__2026-04-19T16:24:27.259092+00:00 [queued]>
+[2026-04-19T16:24:28.856+0000] {taskinstance.py:2306} INFO - Starting attempt 1 of 1
+[2026-04-19T16:24:28.866+0000] {taskinstance.py:2330} INFO - Executing <Task(BashOperator): run_ingestion> on 2026-04-19 16:24:27.259092+00:00
+[2026-04-19T16:24:28.875+0000] {standard_task_runner.py:90} INFO - Running: ['airflow', 'tasks', 'run', 'orchestrate_ingestion', 'run_ingestion', 'manual__2026-04-19T16:24:27.259092+00:00', '--job-id', '17', '--raw', '--subdir', 'DAGS_FOLDER/orchestrate.py', '--cfg-path', '/tmp/tmpy9se9tg8']
+[2026-04-19T16:24:28.876+0000] {standard_task_runner.py:91} INFO - Job 17: Subtask run_ingestion
+[2026-04-19T16:24:28.877+0000] {logging_mixin.py:188} WARNING - /home/airflow/.local/lib/python3.12/site-packages/airflow/task/task_runner/standard_task_runner.py:62 DeprecationWarning: This process (pid=180) is multi-threaded, use of fork() may lead to deadlocks in the child.
+[2026-04-19T16:24:28.877+0000] {standard_task_runner.py:64} INFO - Started process 181 to run task
+[2026-04-19T16:24:28.915+0000] {task_command.py:426} INFO - Running <TaskInstance: orchestrate_ingestion.run_ingestion manual__2026-04-19T16:24:27.259092+00:00 [running]> on host bb86d7615d9c
+[2026-04-19T16:24:28.981+0000] {taskinstance.py:2648} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='airflow' AIRFLOW_CTX_DAG_ID='orchestrate_ingestion' AIRFLOW_CTX_TASK_ID='run_ingestion' AIRFLOW_CTX_EXECUTION_DATE='2026-04-19T16:24:27.259092+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2026-04-19T16:24:27.259092+00:00'
+[2026-04-19T16:24:28.981+0000] {taskinstance.py:430} INFO - ::endgroup::
+[2026-04-19T16:24:28.990+0000] {subprocess.py:63} INFO - Tmp dir root location: /tmp
+[2026-04-19T16:24:28.990+0000] {subprocess.py:75} INFO - Running command: ['/usr/bin/bash', '-c', 'python /opt/app/src/ingestion/ingestion.py']
+[2026-04-19T16:24:29.003+0000] {subprocess.py:86} INFO - Output:
+[2026-04-19T16:24:47.103+0000] {subprocess.py:93} INFO - 
+[2026-04-19T16:24:47.103+0000] {subprocess.py:93} INFO - 0. Bibliotecas e variáveis de ambiente importadas com sucesso...
+[2026-04-19T16:24:47.103+0000] {subprocess.py:93} INFO - 
+[2026-04-19T16:24:47.103+0000] {subprocess.py:93} INFO - 1. Autenticação na plataforma Kaggle realizada com sucesso...
+[2026-04-19T16:24:47.104+0000] {subprocess.py:93} INFO - Dataset URL: https://www.kaggle.com/datasets/irs/individual-income-tax-statistics
+[2026-04-19T16:24:47.104+0000] {subprocess.py:93} INFO - 
+[2026-04-19T16:24:47.104+0000] {subprocess.py:93} INFO - 2. Arquivos capturados do sistema origem e carregados no diretório '/opt/app/data/' com sucesso...
+[2026-04-19T16:24:47.104+0000] {subprocess.py:93} INFO - 
+[2026-04-19T16:24:47.104+0000] {subprocess.py:93} INFO - 3. Arquivo 'tb-staging-individual-income-tax-2014.csv' armazenado no diretório '/opt/app/data/' com sucesso...
+[2026-04-19T16:24:47.104+0000] {subprocess.py:93} INFO - 
+[2026-04-19T16:24:47.104+0000] {subprocess.py:93} INFO - 4. Autenticação no PostgreSQL realizada com sucesso...
+[2026-04-19T16:24:47.104+0000] {subprocess.py:93} INFO - 
+[2026-04-19T16:24:47.104+0000] {subprocess.py:93} INFO - 5. O schema 'staging' foi criado no PostgreSQL com sucesso...
+[2026-04-19T16:24:47.105+0000] {subprocess.py:93} INFO - 
+[2026-04-19T16:24:47.105+0000] {subprocess.py:93} INFO - 6. A tabela 'my_database.staging.tb_staging_individual_income_tax_2014' foi criada no PostgreSQL com sucesso...
+[2026-04-19T16:24:47.105+0000] {subprocess.py:93} INFO - 
+[2026-04-19T16:24:47.105+0000] {subprocess.py:93} INFO - 7. Os dados foram inseridos na tabela 'my_database.staging.tb_staging_individual_income_tax_2014' com sucesso...
+[2026-04-19T16:24:47.148+0000] {subprocess.py:97} INFO - Command exited with return code 0
+[2026-04-19T16:24:47.149+0000] {taskinstance.py:441} INFO - ::group::Post task execution logs
+[2026-04-19T16:24:47.170+0000] {taskinstance.py:1206} INFO - Marking task as SUCCESS. dag_id=orchestrate_ingestion, task_id=run_ingestion, run_id=manual__2026-04-19T16:24:27.259092+00:00, execution_date=20260419T162427, start_date=20260419T162428, end_date=20260419T162447
+[2026-04-19T16:24:47.215+0000] {local_task_job_runner.py:243} INFO - Task exited with return code 0
+[2026-04-19T16:24:47.226+0000] {taskinstance.py:3503} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2026-04-19T16:24:47.228+0000] {local_task_job_runner.py:222} INFO - ::endgroup::
