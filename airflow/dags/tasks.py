@@ -53,7 +53,8 @@ def ingestion_task():
 def dbt_tasks():
     dbt_run = BashOperator(
         task_id="run_dbt",
-        bash_command="dbt run --project-dir /opt/app/src/incomes_dbt --profiles-dir /opt/app/src/incomes_dbt",
+        bash_command="dbt deps --project-dir /opt/app/src/incomes_dbt --profiles-dir /opt/app/src/incomes_dbt && \
+            dbt run --project-dir /opt/app/src/incomes_dbt --profiles-dir /opt/app/src/incomes_dbt",
     )
 
     dbt_test = BashOperator(
