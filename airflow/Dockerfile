@@ -9,9 +9,9 @@ RUN apt-get update && apt-get install -y \
     libpq-dev \
     && apt-get clean
 
-COPY app /opt/app
-
 USER airflow
+
+COPY ./app /opt/app
 
 # Instala dependências Python
 RUN pip install --no-cache-dir -r /opt/app/src/ingestion/requirements.txt && \
@@ -20,15 +20,11 @@ RUN pip install --no-cache-dir -r /opt/app/src/ingestion/requirements.txt && \
 
 USER root
 
-# Corrige logs (evita PermissionError)
-RUN mkdir -p /opt/airflow/logs && \
-    mkdir -p /opt/airflow/logs/scheduler && \
-    chown -R airflow /opt/airflow && \
-    chmod -R 777 /opt/airflow
+RUN mkdir -p /opt/airflow/logs/scheduler /opt/airflow/dags /opt/airflow/plugins && \
+    chown -R airflow:0 /opt/airflow && \
+    chmod -R 775 /opt/airflow
 
 USER airflow
 
 # PYTHONPATH correto e resiliente
 ENV PYTHONPATH="/opt/app:${PYTHONPATH:-}"
-
-CMD airflow db migrate && airflow users create --username admin --password admin --firstname admin --lastname user --role Admin --email admin@email.com
