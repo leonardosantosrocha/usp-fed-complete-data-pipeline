@@ -1,108 +1,7 @@
-# services:
-#   postgres:
-#     image: postgres:18
-#     container_name: postgres-app
-#     environment:
-#       POSTGRES_DB: ${POSTGRES_DB}
-#       POSTGRES_USER: ${POSTGRES_USER}
-#       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-#     ports:
-#       - "${POSTGRES_PORTS}"
-#     volumes:
-#       - postgres_data:/var/lib/postgresql
-#     networks:
-#       - data-network
-#     healthcheck:
-#       test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
-#       interval: 5s
-#       timeout: 5s
-#       retries: 10
-
-#   ingestion:
-#     build:
-#       context: ./app/
-#       dockerfile: src/ingestion/Dockerfile
-#     container_name: ingestion-app
-#     depends_on:
-#       postgres:
-#         condition: service_healthy
-#     networks:
-#       - data-network
-#     volumes:
-#       - app_data:/app/data
-#     env_file:
-#       - .env
-
-#   transform:
-#     container_name: dbt-transform
-#     build:
-#       context: ./app/
-#       dockerfile: src/incomes_dbt/Dockerfile
-#     env_file:
-#       - .env
-#     volumes:
-#       - ./app/src/incomes_dbt:/app/dbt
-#     environment:
-#       - DBT_PROFILES_DIR=/app/dbt
-#     depends_on:
-#       ingestion:
-#         condition: service_completed_successfully
-#     networks:
-#       - data-network
-
-#   dbt-docs:
-#     container_name: dbt-docs
-#     build:
-#       context: ./app/
-#       dockerfile: src/incomes_dbt/Dockerfile
-#     env_file:
-#       - .env
-#     volumes:
-#       - ./app/src/incomes_dbt:/app/dbt
-#     environment:
-#       - DBT_PROFILES_DIR=/app/dbt
-#     depends_on:
-#       transform:
-#         condition: service_completed_successfully
-#     command:
-#       - bash
-#       - -c
-#       - |
-#         dbt docs generate --profiles-dir /app/dbt && 
-#         dbt docs serve --profiles-dir /app/dbt --port 8081 --host 0.0.0.0
-#     networks:
-#       - data-network
-#     ports:
-#       - "8081:8081"
-
-#   quality:
-#     container_name: quality-app
-#     build:
-#       context: ./app
-#       dockerfile: src/quality/quality.Dockerfile
-#     depends_on:
-#       ingestion:
-#         condition: service_completed_successfully
-#     volumes:
-#       - app_data:/app/data
-#       - quality_data:/app/src/quality
-#     networks:
-#       - data-network
-
-# volumes:
-#   postgres_data:
-#   app_data:
-#   quality_data:
-
-# networks:
-#   data-network:
-#     driver: bridge
-
 x-airflow-common: &airflow-common
   build:
     context: .
     dockerfile: airflow/Dockerfile
-  image: airflow-custom:latest
 
   env_file:
     - .env
@@ -115,13 +14,8 @@ x-airflow-common: &airflow-common
     AIRFLOW__CORE__DAGS_FOLDER: /opt/airflow/dags
 
   volumes:
-    - app:/opt/app
-    - airflow:/opt/airflow
-    # - ./app/src/airflow/dags:/opt/airflow/dags
-    # - ./app/src/airflow/plugins:/opt/airflow/plugins
-    # - ./app/src:/opt/airflow/app/src
-    # - ./app/data:/opt/airflow/app/data
-    # - airflow-logs:/opt/airflow/logs
+    - ./app:/opt/app
+    - ./airflow:/opt/airflow
 
   depends_on:
     - postgres
@@ -139,13 +33,12 @@ services:
     ports:
       - "${POSTGRES_PORTS}"
     volumes:
-      - postgres-db-volume:/var/lib/postgresql/data
+      - ./postgres-db-volume:/var/lib/postgresql/data
 
 
   airflow-init:
     <<: *airflow-common
-    entrypoint: /bin/bash
-
+    
 
   airflow-webserver:
     <<: *airflow-common
@@ -161,8 +54,3 @@ services:
     command: scheduler
     depends_on:
       - airflow-init
-
-
-volumes:
-  postgres-db-volume:
-  airflow-logs:
