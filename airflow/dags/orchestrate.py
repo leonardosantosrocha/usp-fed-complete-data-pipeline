@@ -51,7 +51,7 @@ with DAG(
 
     ingestion_task = BashOperator(
         task_id="run_ingestion",
-        bash_command="python /opt/airflow/app/src/ingestion/ingestion.py",
+        bash_command="python /opt/app/src/ingestion/ingestion.py",
     )
 
     wait_db >> ingestion_task

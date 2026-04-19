@@ -28,7 +28,7 @@ def extract_data_from_kaggle(api : object, datasetName : str, toPath : str) -> N
             unzip = True,
         )
 
-        print(f"\n2. Arquivos capturados do sistema origem e carregados no diretório './data/' com sucesso...")
+        print(f"\n2. Arquivos capturados do sistema origem e carregados no diretório '{toPath}' com sucesso...")
 
     except Exception as e:
 
@@ -55,7 +55,7 @@ def filter_required_file(fromPath : str, toPath : str) -> None:
 
             os.remove(deleted_file)
 
-    print(f"\n3. Arquivo '{toFilePath.split('/')[-1]}' armazenado no diretório './data/' com sucesso...")
+    print(f"\n3. Arquivo '{toFilePath.split('/')[-1]}' armazenado no diretório '{toPath}' com sucesso...")
 
 
 def authenticate_on_postgresql() -> object:
@@ -84,6 +84,8 @@ def authenticate_on_postgresql() -> object:
 def create_schema_on_postgresql(connection : object) -> None:
 
     query = """
+    DROP SCHEMA IF EXISTS my_database.staging CASCADE;
+
     CREATE SCHEMA IF NOT EXISTS my_database.staging;
     """
 
@@ -499,7 +501,7 @@ def insert_into_on_postgresql(connection : object) -> None:
         a11902,
         year
     FROM 
-        read_csv('/opt/airflow/app/data/tb-staging-individual-income-tax-2014.csv')
+        read_csv('/opt/app/data/tb-staging-individual-income-tax-2014.csv')
     """
 
     connection.execute(query)
@@ -512,11 +514,10 @@ def main():
     api = authenticate_on_kaggle()
 
     dataset_name = "irs/individual-income-tax-statistics"
-    to_path = "/opt/airflow/app/data/"
+    to_path = "/opt/app/data/"
     extract_data_from_kaggle(api = api, datasetName = dataset_name, toPath = to_path)
 
-    from_path = "/opt/airflow/app/data/"
-    to_path = "/opt/airflow/app/data/"
+    from_path = "/opt/app/data/"
     filter_required_file(fromPath = from_path, toPath = to_path)
 
     postgres_connection = authenticate_on_postgresql()

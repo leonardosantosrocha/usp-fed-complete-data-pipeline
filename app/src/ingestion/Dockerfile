@@ -1,13 +1,13 @@
-FROM python:3.11-slim
+# FROM python:3.11-slim
 
-WORKDIR /app
+# WORKDIR /app
 
-COPY src/ingestion/requirements.txt .
+# COPY src/ingestion/requirements.txt .
 
-RUN pip install --no-cache-dir -r requirements.txt
+# RUN pip install --no-cache-dir -r requirements.txt
 
-COPY src/ingestion/ingestion.py .
+# COPY src/ingestion/ingestion.py .
 
-ENV PYTHONUNBUFFERED=1
+# ENV PYTHONUNBUFFERED=1
 
-CMD ["python", "ingestion.py"]
+# CMD ["python", "ingestion.py"]
