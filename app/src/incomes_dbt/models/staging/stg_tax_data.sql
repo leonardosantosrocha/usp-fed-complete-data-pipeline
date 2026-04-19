@@ -5,8 +5,8 @@ WITH source AS (
 renamed AS (
     SELECT
         {{ dbt_utils.generate_surrogate_key([
+            'zipcode',
             'state',
-            'year',
             'agi_stub'
         ]) }} AS tax_id,
 
