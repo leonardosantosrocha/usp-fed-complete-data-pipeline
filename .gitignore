@@ -11,4 +11,4 @@ TODO.md
 postgres-db-volume
 __pycache__
 *.pyc
-airflow/logs/dag*
+airflow/logs/*
