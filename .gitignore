@@ -9,3 +9,6 @@ postgres_data
 image.png
 TODO.md
 postgres-db-volume
+__pycache__
+*.pyc
+airflow/logs/dag*
