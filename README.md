@@ -99,6 +99,158 @@ Colunas `N*` contam quantas declarações reportaram determinado item (salário,
 ### 6. Volume do dataset
 Entre **100.000** e **200.000** linhas.
 
----
 
 **Total: 245 expectations** | Checkpoint: `irs_income_tax_checkpoint`
+   
+---
+
+## Execução do Projeto
+
+Siga os passos abaixo para clonar e executar a pipeline completa em ambiente local.
+
+### 1. Clonar o repositório
+
+`git clone https://github.com/leonardosantosrocha/usp-fed-complete-data-pipeline.git`  
+`cd usp-fed-complete-data-pipeline`
+
+### 2. Configuração do ambiente
+
+Abra o arquivo `.env.example`, copie seu conteúdo e crie um novo arquivo chamado `.env` com o mesmo conteúdo. O arquivo `.env` original não está versionado por boas práticas de segurança, já que pode conter credenciais. Como este projeto tem caráter acadêmico e demonstrativo, as credenciais não são obrigatórias, permitindo a execução sem configurações adicionais. Após criar o arquivo, salve normalmente.
+
+### 3. Subir os serviços
+
+No terminal, execute:
+
+`docker-compose up`
+
+Esse comando irá iniciar todos os serviços necessários para a execução da pipeline.
+
+### 4. Acessar o Airflow
+
+Abra no navegador:  
+http://localhost:8080
+
+Faça login com:  
+usuário: admin  
+senha: admin
+
+### 5. Executar a pipeline
+
+Após o login, você verá a interface do Airflow. Clique no botão de execução ("play") para iniciar a DAG.
+
+![Execução da DAG](imagens/airflow-run.png)
+
+### 6. Acompanhar a execução
+
+A execução será concluída quando, na seção **Runs**, aparecer o indicador verde de sucesso.
+
+![Execução com sucesso](imagens/airflow-sucess.png)
+
+
+### 7. Acessar o dashboard
+
+Após a conclusão da pipeline, acesse o dashboard no seguinte endereço:
+
+http://localhost:3000/dashboard/2-quais-mercados-sao-mais-atrativos-e-por-que
+
+Utilize as seguintes credenciais para login:
+
+- usuário: camilafap02@gmail.com  
+- senha: poli-usp123  
+
+Após o login, será possível visualizar os gráficos apresentados neste projeto, que também estão detalhados nas seções abaixo.
+
+---
+
+## Análise de Potencial de Mercado por Estado
+
+Este projeto tem como objetivo identificar quais mercados são mais atrativos, considerando tanto o tamanho da base de consumidores quanto o seu poder de compra.
+
+A análise foi estruturada em diferentes visualizações, cada uma explorando uma dimensão específica do problema.
+
+---
+
+## Score de Potencial de Mercado
+
+![Score de Mercado](imagens/grafico-score-mercado.png)
+
+É um indicador que combina renda média (`avg_income_per_return`) com volume de consumidores (`total_returns`), ajustando o tamanho com log.
+
+**Fórmula:**  
+`score = avg_income_per_return × log(total_returns)`  
+
+Dessa forma, evitamos que estados muito grandes dominem o ranking apenas por escala, trazendo uma visão mais equilibrada entre tamanho e capacidade de consumo.
+
+---
+
+## Renda Média por Declaração
+
+![Renda Média](imagens/grafico-renda-media.png)
+
+É a média de renda das pessoas que declararam imposto em cada estado (`avg_income_per_return`), utilizada como proxy de poder de compra.
+
+**Fórmula:**  
+`avg_income_per_return = renda total declarada ÷ total_returns`
+
+Os valores estão em milhares de dólares por ano e representam a renda média por contribuinte em cada estado.
+
+---
+
+## Volume de Declarações
+
+![Volume de Declarações](imagens/grafico-declaracoes.png)
+
+É a quantidade de declarações de imposto por estado (`total_returns`), utilizada como proxy do tamanho do mercado consumidor.
+
+**Fórmula:**  
+`total_returns = número de declarações`
+
+Esse indicador representa o volume de pessoas economicamente ativas em cada estado.
+
+---
+
+## Renda Média vs Volume de Mercado
+
+![Renda vs Volume](imagens/grafico-declaracoes-por-renda.png)
+
+É uma comparação entre o tamanho do mercado (`total_returns`) e o poder de compra médio (`avg_income_per_return`) por estado.
+
+Essa visualização permite identificar:
+- mercados grandes com menor poder de compra  
+- mercados menores, porém mais ricos  
+- e estados que conseguem equilibrar escala e renda  
+
+A análise destaca o equilíbrio entre quantidade e qualidade do consumo, sem redundância de métricas derivadas.
+
+---
+
+## Dashboard Consolidado
+
+![Dashboard](imagens/dashboard.png)
+
+Ao combinar todas as visualizações, o dashboard permite entender o potencial de mercado sob diferentes perspectivas complementares.
+
+- O **score de mercado** sintetiza o equilíbrio entre escala e renda  
+- A **renda média** mostra a qualidade do consumo  
+- O **volume de declarações** evidencia o tamanho do mercado  
+- A análise conjunta permite identificar como esses fatores se relacionam  
+
+Essa abordagem evita decisões baseadas em apenas uma variável isolada.
+
+Na prática, a análise mostra que:
+- mercados maiores nem sempre possuem maior poder de compra  
+- mercados mais ricos nem sempre possuem escala suficiente  
+- os mercados mais atrativos são aqueles que equilibram essas duas dimensões  
+
+---
+
+## Conclusão
+
+A identificação de oportunidades de mercado exige olhar simultaneamente para tamanho e capacidade de consumo.
+
+Ao estruturar os dados dessa forma, é possível:
+- priorizar mercados com maior retorno potencial  
+- evitar decisões baseadas apenas em volume ou renda  
+- e direcionar estratégias com maior embasamento analítico  
+
+O dashboard, portanto, não apenas apresenta dados, mas apoia decisões mais estratégicas e fundamentadas.
