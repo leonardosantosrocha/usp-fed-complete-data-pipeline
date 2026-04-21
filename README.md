@@ -1,5 +1,7 @@
 ## Contexto
 
+[video demonstrativo](https://www.youtube.com/watch?v=Sjp65eyzPPk)
+
 Uma empresa de atuação nacional busca expandir sua presença no mercado e tornar suas estratégias comerciais mais eficientes. Para isso, precisa entender de forma estruturada como o poder de compra está distribuído entre diferentes regiões e perfis da população.
 
 Atualmente, decisões de expansão, investimento e marketing são frequentemente baseadas em dados fragmentados e pouco estruturados, sem uma visão integrada de fatores essenciais como renda, volume populacional e diferenças regionais de consumo. Essa limitação dificulta a identificação de oportunidades reais de mercado e pode levar a alocações ineficientes de recursos, campanhas pouco assertivas e perda de potencial competitivo.
@@ -123,7 +125,7 @@ No terminal, execute:
 
 `docker-compose up`
 
-Esse comando irá iniciar todos os serviços necessários para a execução da pipeline.
+Esse comando irá iniciar todos os serviços necessários para a execução da pipeline e irá levar alguns minutos.
 
 ### 4. Acessar o Airflow
 
