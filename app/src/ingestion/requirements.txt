@@ -1,4 +1,0 @@
-dotenv 
-duckdb
-kaggle
-pandas
