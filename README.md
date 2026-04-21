@@ -140,7 +140,7 @@ senha: admin
 
 Após o login, você verá a interface do Airflow. Clique no botão de execução ("play") para iniciar a DAG.
 
-![Execução da DAG](imagens/airflow-run.png)
+![Execução da DAG](imagens/airlow-run.png)
 
 ### 6. Acompanhar a execução
 
