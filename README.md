@@ -2,6 +2,8 @@
 
 [video demonstrativo](https://www.youtube.com/watch?v=Sjp65eyzPPk)
 
+[base de dados utilizada](https://www.kaggle.com/datasets/irs/individual-income-tax-statistics)
+
 Uma empresa de atuação nacional busca expandir sua presença no mercado e tornar suas estratégias comerciais mais eficientes. Para isso, precisa entender de forma estruturada como o poder de compra está distribuído entre diferentes regiões e perfis da população.
 
 Atualmente, decisões de expansão, investimento e marketing são frequentemente baseadas em dados fragmentados e pouco estruturados, sem uma visão integrada de fatores essenciais como renda, volume populacional e diferenças regionais de consumo. Essa limitação dificulta a identificação de oportunidades reais de mercado e pode levar a alocações ineficientes de recursos, campanhas pouco assertivas e perda de potencial competitivo.
@@ -256,3 +258,25 @@ Ao estruturar os dados dessa forma, é possível:
 - e direcionar estratégias com maior embasamento analítico  
 
 O dashboard, portanto, não apenas apresenta dados, mas apoia decisões mais estratégicas e fundamentadas.
+
+## Checklist de Tarefas
+
+- Script Python injestão: concluído
+- Banco : concluído
+- Great Expectations : concluído
+- DBT : Parcialmente concluído (fonte do dataset não possui dimensões)
+- Airflow : concluído
+- Visualização (Metabase) : concluído
+- Docker : concluído
+
+
+## Contribuições
+
+- Docker: Lucca
+- Injestão: Leonardo
+- Great Expectations: Gustavo
+- DBT: Ramon
+- Airflow: Leonardo
+- Metabase: Camila
+
+---
