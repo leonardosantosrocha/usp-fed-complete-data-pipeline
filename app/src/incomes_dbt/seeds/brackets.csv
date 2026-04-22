@@ -4,4 +4,4 @@ agi_stub,income_bracket_label,income_bracket_min,income_bracket_max,income_brack
 3,"$50,000 under $75,000",50000,74999,3
 4,"$75,000 under $100,000",75000,99999,4
 5,"$100,000 under $200,000",100000,199999,5
-6,"$200,000 or more",200000,-1,6
+6,"$200,000 or more",200000,90000000,6

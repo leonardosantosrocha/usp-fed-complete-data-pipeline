@@ -29,6 +29,7 @@ final as (
     from staging stg
     inner join dim_states s on stg.state_code = s.state_code
     inner join dim_income i on stg.agi_stub = i.agi_stub
+ where stg.total_income > 0
 )
 
 select * from final
