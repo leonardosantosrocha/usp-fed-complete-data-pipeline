@@ -1,8 +1,6 @@
-## Contexto
+# 📚 Simulação de um Pipeline de Dados em Ambiente de Produção
 
-[video demonstrativo](https://www.youtube.com/watch?v=Sjp65eyzPPk)
-
-[base de dados utilizada](https://www.kaggle.com/datasets/irs/individual-income-tax-statistics)
+### 🌱 Contexto
 
 Uma empresa de atuação nacional busca expandir sua presença no mercado e tornar suas estratégias comerciais mais eficientes. Para isso, precisa entender de forma estruturada como o poder de compra está distribuído entre diferentes regiões e perfis da população.
 
@@ -10,9 +8,10 @@ Atualmente, decisões de expansão, investimento e marketing são frequentemente
 
 Diante desse cenário, surge a necessidade de consolidar e organizar os dados de forma analítica, permitindo uma visão clara e comparável entre regiões.
 
----
+<br/>
 
-## Problema de Negócio
+
+### 💼 Problema de Negócio
 
 A ausência de uma análise integrada entre renda e densidade populacional impede responder, com precisão, perguntas fundamentais como:
 
@@ -24,25 +23,17 @@ A ausência de uma análise integrada entre renda e densidade populacional imped
 
 Sem essas respostas, decisões estratégicas são tomadas com baixa eficiência, aumentando o risco de investimentos mal direcionados.
 
----
+<br/>
 
-## Objetivo
 
-Este projeto tem como objetivo construir um pipeline de dados e uma camada analítica que permita identificar regiões com maior potencial econômico, combinando renda e volume populacional.
+### 🎯 Objetivo
 
-A proposta é transformar dados brutos em informações estruturadas, capazes de apoiar decisões estratégicas de negócio.
+Este projeto tem como objetivo construir um pipeline de dados e uma camada analítica que permita identificar regiões com maior potencial econômico, combinando renda e volume populacional. A proposta é transformar dados brutos em informações estruturadas, capazes de apoiar decisões estratégicas de negócio. Por fim, propomos responder a seguinte pergunta: **onde estão os mercados com maior potencial de consumo?**
 
----
+<br/>
 
-## Pergunta Principal
 
-A principal pergunta que guia este projeto é:
-
-**Onde estão os mercados com maior potencial de consumo?**
-
----
-
-## Abordagem Analítica
+### 📊 Abordagem Analítica
 
 Para responder a essa pergunta, o projeto utiliza uma modelagem dimensional que permite analisar os dados sob diferentes perspectivas:
 
@@ -60,9 +51,10 @@ A partir dessa estrutura, são construídos indicadores como:
 
 Um dos principais outputs do projeto é um índice de potencial de mercado, que combina renda média com volume populacional ajustado (log da população), evitando distorções causadas por estados muito populosos. :contentReference[oaicite:0]{index=0}
 
----
+<br/>
 
-## Resultado Esperado
+
+### 📌 Resultado Esperado
 
 Ao final, o projeto permite:
 
@@ -73,19 +65,20 @@ Ao final, o projeto permite:
 
 Mais do que gerar dashboards, o objetivo é transformar dados em direcionamento estratégico.
 
----
+<br/>
 
-## Qualidade de Dados 
+
+### ✅️ Qualidade de Dados 
 
 Validações aplicadas sobre o schema **raw** usando Great Expectations.
 
-### 1. Schema: colunas esperadas
+#### 1. Schema: colunas esperadas
 Verifica que todas as 120 colunas do dataset estão presentes. Se uma coluna estiver ausente, a validação falha antes de chegar nos demais testes.
 
-### 2. Não nulos
+#### 2. Não nulos
 Colunas `statefips`, `state`, `zipcode`, `agi_stub`, `year` não podem ser nulas.
 
-### 3. Valores válidos
+#### 3. Valores válidos
 | Coluna | Regra |
 |---|---|
 | `statefips` | Código FIPS entre `01` e `56` |
@@ -94,128 +87,151 @@ Colunas `statefips`, `state`, `zipcode`, `agi_stub`, `year` não podem ser nulas
 | `year` | Apenas `2014` |
 | `zipcode` | 5 dígitos numéricos |
 
-### 4. Contagens (`N*`) >= 0
+#### 4. Contagens (`N*`) >= 0
 Colunas `N*` contam quantas declarações reportaram determinado item (salário, dividendo, crédito etc.). Contagem de pessoas nunca pode ser negativa — 63 colunas validadas.
 
-### 5. Valores monetários (`A*`) >= 0
+#### 5. Valores monetários (`A*`) >= 0
 51 colunas de totais em dólares validadas com `min_value=0`. Exceções permitidas pois representam resultado líquido, que pode ser negativo em caso de prejuízo: `a00900` (negócio), `a01000` (capital), `a26270` (sociedades/S-corp).
 
-### 6. Volume do dataset
+#### 6. Volume do dataset
 Entre **100.000** e **200.000** linhas.
 
 
 **Total: 245 expectations** | Checkpoint: `irs_income_tax_checkpoint`
-   
----
 
-## Execução do Projeto
+<br/>
+
+
+### 🧭 Diagrama de Arquitetura
+
+<div style="text-align:center">
+<img src="imagens/diagrama-arquitetura.svg"/>
+</div>
+
+<br/>
+
+
+### ⚙️ Execução do Projeto
 
 Siga os passos abaixo para clonar e executar a pipeline completa em ambiente local.
 
-### 1. Clonar o repositório
+#### 1. Clonar o repositório
 
-`git clone https://github.com/leonardosantosrocha/usp-fed-complete-data-pipeline.git`  
-`cd usp-fed-complete-data-pipeline`
+Acesse o endereço `https://github.com/leonardosantosrocha/usp-fed-complete-data-pipeline/tree/main`, clique no botão `<> Code` (destacado em verde), selecione a opção `HTTPS` e clique no ícone de copiar. Em seguida, com o `git` pré-configurado, digite o comando `git clone https://github.com/leonardosantosrocha/usp-fed-complete-data-pipeline.git` para clonar o repositório e, por fim, `cd usp-fed-complete-data-pipeline` para entrar no diretório do repositório clonado.
 
-### 2. Configuração do ambiente
+#### 2. Passo obrigatório para usuários de sistemas derivados do Unix
+
+Durante o desenvolvimento do projeto, o Airflow apresentou erros de permissão ao tentar interagir com o filesystem dos desenvolvedores, portanto, sugerimos que executem o comando `chmod -R 777 airflow/plugins app/data` após clonar o repositório, dessa forma, os diretórios `airflow/plugins` e `app/data` poderão ser acessados pelo Airflow durante a execução do projeto.
+
+#### 3. Configuração do ambiente
 
 Abra o arquivo `.env.example`, copie seu conteúdo e crie um novo arquivo chamado `.env` com o mesmo conteúdo. O arquivo `.env` original não está versionado por boas práticas de segurança, já que pode conter credenciais. Como este projeto tem caráter acadêmico e demonstrativo, as credenciais não são obrigatórias, permitindo a execução sem configurações adicionais. Após criar o arquivo, salve normalmente.
 
-### 3. Subir os serviços
+#### 4. Subir os serviços
 
-No terminal, execute:
+No terminal, execute o comando `docker-compose up` para iniciar todos os serviços necessários para a execução da pipeline (irá levar alguns minutos).
 
-`docker-compose up`
+#### 5. Acessar o Airflow
 
-Esse comando irá iniciar todos os serviços necessários para a execução da pipeline e irá levar alguns minutos.
+Abra no navegador e acesse `http://localhost:8080` e faça login com:
+- Usuário: admin  
+- Senha: admin
 
-### 4. Acessar o Airflow
+#### 6. Executar a pipeline
 
-Abra no navegador:  
-http://localhost:8080
+Após realizar o login na plataforma você verá a interface gráfica do Apache Airflow. Com isso, clique no ícone `play` para iniciar a execução da DAG.
 
-Faça login com:  
-usuário: admin  
-senha: admin
+<div style="text-align:center">
+<img src="imagens/airlow-run.png"/>
+</div>
 
-### 5. Executar a pipeline
+#### 7. Acompanhar a execução
 
-Após o login, você verá a interface do Airflow. Clique no botão de execução ("play") para iniciar a DAG.
+A execução será concluída quando, na seção `runs`, aparecer o indicador verde de sucesso - o que indica que o pipeline foi executado de ponta a ponta conforme o previsto.
 
-![Execução da DAG](imagens/airlow-run.png)
+<div style="text-align:center">
+<img src="imagens/airflow-sucess.png"/>
+</div>
 
-### 6. Acompanhar a execução
+#### 8. Acessar o dashboard
 
-A execução será concluída quando, na seção **Runs**, aparecer o indicador verde de sucesso.
+Após a conclusão da pipeline, acesse o dashboard através do endereço `http://localhost:3000/dashboard/2-quais-mercados-sao-mais-atrativos-e-por-que`
 
-![Execução com sucesso](imagens/airflow-sucess.png)
+Utilize as credenciais abaixo para realizar o login:
+
+- Usuário: camilafap02@gmail.com  
+- Senha: poli-usp123  
+
+Após a autenticação, será possível visualizar os gráficos apresentados neste projeto, que também estão detalhados nas seções abaixo.
+
+<br/>
 
 
-### 7. Acessar o dashboard
+### 🔎 Análise de Potencial de Mercado por Estado
 
-Após a conclusão da pipeline, acesse o dashboard no seguinte endereço:
-
-http://localhost:3000/dashboard/2-quais-mercados-sao-mais-atrativos-e-por-que
-
-Utilize as seguintes credenciais para login:
-
-- usuário: camilafap02@gmail.com  
-- senha: poli-usp123  
-
-Após o login, será possível visualizar os gráficos apresentados neste projeto, que também estão detalhados nas seções abaixo.
-
----
-
-## Análise de Potencial de Mercado por Estado
-
-Este projeto tem como objetivo identificar quais mercados são mais atrativos, considerando tanto o tamanho da base de consumidores quanto o seu poder de compra.
+Este projeto tem como objetivo identificar quais mercados são mais atrativos, considerando tanto o tamanho da base de consumidores quanto o seu poder de compra. 
 
 A análise foi estruturada em diferentes visualizações, cada uma explorando uma dimensão específica do problema.
 
----
+<br/>
 
-## Score de Potencial de Mercado
 
-![Score de Mercado](imagens/grafico-score-mercado.png)
+### 💸 Score de Potencial de Mercado
 
-É um indicador que combina renda média (`avg_income_per_return`) com volume de consumidores (`total_returns`), ajustando o tamanho com log.
+<div style="text-align:center">
+<img src="imagens/grafico-score-mercado.png"/>
+</div>
 
-**Fórmula:**  
-`score = avg_income_per_return × log(total_returns)`  
+É um indicador que combina renda média (`avg_income_per_return`) com volume de consumidores (`total_returns`), ajustando o tamanho com log. 
+
+<div style="text-align:center">
+<p style="font-weight: bold;">Fórmula: <code>score = avg_income_per_return × log(total_returns)</code></p>
+</div>
 
 Dessa forma, evitamos que estados muito grandes dominem o ranking apenas por escala, trazendo uma visão mais equilibrada entre tamanho e capacidade de consumo.
 
----
+<br/>
 
-## Renda Média por Declaração
 
-![Renda Média](imagens/grafico-renda-media.png)
+### 💰 Renda Média por Declaração
+
+<div style="text-align:center">
+<img src="imagens/grafico-renda-media.png"/>
+</div>
 
 É a média de renda das pessoas que declararam imposto em cada estado (`avg_income_per_return`), utilizada como proxy de poder de compra.
 
-**Fórmula:**  
-`avg_income_per_return = renda total declarada ÷ total_returns`
+<div style="text-align:center">
+<p style="font-weight: bold;">Fórmula: <code>avg_income_per_return = renda total declarada ÷ total_returns</code></p>
+</div>
 
 Os valores estão em milhares de dólares por ano e representam a renda média por contribuinte em cada estado.
 
----
+<br/>
 
-## Volume de Declarações
 
-![Volume de Declarações](imagens/grafico-declaracoes.png)
+### 📝 Volume de Declarações
+
+<div style="text-align:center">
+<img src="imagens/grafico-declaracoes.png"/>
+</div>
 
 É a quantidade de declarações de imposto por estado (`total_returns`), utilizada como proxy do tamanho do mercado consumidor.
 
-**Fórmula:**  
-`total_returns = número de declarações`
+<div style="text-align:center">
+<p style="font-weight: bold;">Fórmula: <code>total_returns = número de declarações</code></p>
+</div>
 
 Esse indicador representa o volume de pessoas economicamente ativas em cada estado.
 
----
+<br/>
 
-## Renda Média vs Volume de Mercado
 
-![Renda vs Volume](imagens/grafico-declaracoes-por-renda.png)
+### 💲 Renda Média vs Volume de Mercado
+
+<div style="text-align:center">
+<img src="imagens/grafico-declaracoes-por-renda.png"/>
+</div>
 
 É uma comparação entre o tamanho do mercado (`total_returns`) e o poder de compra médio (`avg_income_per_return`) por estado.
 
@@ -226,11 +242,14 @@ Essa visualização permite identificar:
 
 A análise destaca o equilíbrio entre quantidade e qualidade do consumo, sem redundância de métricas derivadas.
 
----
+<br/>
 
-## Dashboard Consolidado
 
-![Dashboard](imagens/dashboard.png)
+### 📈 Dashboard Consolidado
+
+<div style="text-align:center">
+<img src="imagens/dashboard.png"/>
+</div>
 
 Ao combinar todas as visualizações, o dashboard permite entender o potencial de mercado sob diferentes perspectivas complementares.
 
@@ -246,9 +265,10 @@ Na prática, a análise mostra que:
 - mercados mais ricos nem sempre possuem escala suficiente  
 - os mercados mais atrativos são aqueles que equilibram essas duas dimensões  
 
----
+<br/>
 
-## Conclusão
+
+### 💡 Conclusão
 
 A identificação de oportunidades de mercado exige olhar simultaneamente para tamanho e capacidade de consumo.
 
@@ -259,24 +279,30 @@ Ao estruturar os dados dessa forma, é possível:
 
 O dashboard, portanto, não apenas apresenta dados, mas apoia decisões mais estratégicas e fundamentadas.
 
-## Checklist de Tarefas
-
-- Script Python injestão: concluído
-- Banco : concluído
-- Great Expectations : concluído
-- DBT : Parcialmente concluído (fonte do dataset não possui dimensões)
-- Airflow : concluído
-- Visualização (Metabase) : concluído
-- Docker : concluído
+<br/>
 
 
-## Contribuições
+### 📦 Artefatos Gerados
 
-- Docker: Lucca
-- Injestão: Leonardo
-- Great Expectations: Gustavo
-- DBT: Ramon
-- Airflow: Leonardo
-- Metabase: Camila
+- 🎥 [Video demonstrativo](https://www.youtube.com/watch?v=Sjp65eyzPPk)
 
----
+- 🎲 [Base de dados utilizada](https://www.kaggle.com/datasets/irs/individual-income-tax-statistics)
+
+<br/>
+
+
+### 📋 Checklist de Tarefas e Contribuições
+
+| Atividade | Engenheiro(a) responsável | Não concluído | Parcialmente | Concluído | Observação | 
+| :-------: | :-------: | :-------: | :-------: | :-------: | :-------: | 
+| Script Python p/ captura/ingestão |Leonardo|||🟢||
+| Camada bronze no PostgreSQL |Leonardo/Ramon|||🟢||
+| Qualidade de dados com GX |Gustavo|||🟢||
+| Transformações/docs com DBT |Ramon|||🟢||
+| Orquestração com Airflow |Gustavo/Leonardo|||🟢||
+| Visualização com Metabase |Camila|||🟢||
+| Uso de containers |Lucca|||🟢||
+
+<br/>
+
+--- 
