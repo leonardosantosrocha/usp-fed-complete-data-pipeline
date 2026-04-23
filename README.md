@@ -1,4 +1,4 @@
-# 📚 Simulação de um Pipeline de Dados em Ambiente de Produção
+# 📚 Simulação de um Pipeline de Dados em Produção
 
 ### 🌱 Contexto
 
@@ -7,8 +7,6 @@ Uma empresa de atuação nacional busca expandir sua presença no mercado e torn
 Atualmente, decisões de expansão, investimento e marketing são frequentemente baseadas em dados fragmentados e pouco estruturados, sem uma visão integrada de fatores essenciais como renda, volume populacional e diferenças regionais de consumo. Essa limitação dificulta a identificação de oportunidades reais de mercado e pode levar a alocações ineficientes de recursos, campanhas pouco assertivas e perda de potencial competitivo.
 
 Diante desse cenário, surge a necessidade de consolidar e organizar os dados de forma analítica, permitindo uma visão clara e comparável entre regiões.
-
-<br/>
 
 
 ### 💼 Problema de Negócio
@@ -23,14 +21,10 @@ A ausência de uma análise integrada entre renda e densidade populacional imped
 
 Sem essas respostas, decisões estratégicas são tomadas com baixa eficiência, aumentando o risco de investimentos mal direcionados.
 
-<br/>
-
 
 ### 🎯 Objetivo
 
 Este projeto tem como objetivo construir um pipeline de dados e uma camada analítica que permita identificar regiões com maior potencial econômico, combinando renda e volume populacional. A proposta é transformar dados brutos em informações estruturadas, capazes de apoiar decisões estratégicas de negócio. Por fim, propomos responder a seguinte pergunta: **onde estão os mercados com maior potencial de consumo?**
-
-<br/>
 
 
 ### 📊 Abordagem Analítica
@@ -51,8 +45,6 @@ A partir dessa estrutura, são construídos indicadores como:
 
 Um dos principais outputs do projeto é um índice de potencial de mercado, que combina renda média com volume populacional ajustado (log da população), evitando distorções causadas por estados muito populosos. :contentReference[oaicite:0]{index=0}
 
-<br/>
-
 
 ### 📌 Resultado Esperado
 
@@ -64,8 +56,6 @@ Ao final, o projeto permite:
 - Melhorar a eficiência na alocação de recursos
 
 Mais do que gerar dashboards, o objetivo é transformar dados em direcionamento estratégico.
-
-<br/>
 
 
 ### ✅️ Qualidade de Dados 
@@ -99,17 +89,12 @@ Entre **100.000** e **200.000** linhas.
 
 **Total: 245 expectations** | Checkpoint: `irs_income_tax_checkpoint`
 
-<br/>
-
 
 ### 🧭 Diagrama de Arquitetura
 
 <div style="text-align:center">
 <img src="imagens/diagrama-arquitetura.svg"/>
 </div>
-
-<br/>
-
 
 ### ⚙️ Execução do Projeto
 
@@ -164,16 +149,11 @@ Utilize as credenciais abaixo para realizar o login:
 
 Após a autenticação, será possível visualizar os gráficos apresentados neste projeto, que também estão detalhados nas seções abaixo.
 
-<br/>
-
-
 ### 🔎 Análise de Potencial de Mercado por Estado
 
 Este projeto tem como objetivo identificar quais mercados são mais atrativos, considerando tanto o tamanho da base de consumidores quanto o seu poder de compra. 
 
 A análise foi estruturada em diferentes visualizações, cada uma explorando uma dimensão específica do problema.
-
-<br/>
 
 
 ### 💸 Score de Potencial de Mercado
@@ -190,8 +170,6 @@ A análise foi estruturada em diferentes visualizações, cada uma explorando um
 
 Dessa forma, evitamos que estados muito grandes dominem o ranking apenas por escala, trazendo uma visão mais equilibrada entre tamanho e capacidade de consumo.
 
-<br/>
-
 
 ### 💰 Renda Média por Declaração
 
@@ -206,8 +184,6 @@ Dessa forma, evitamos que estados muito grandes dominem o ranking apenas por esc
 </div>
 
 Os valores estão em milhares de dólares por ano e representam a renda média por contribuinte em cada estado.
-
-<br/>
 
 
 ### 📝 Volume de Declarações
@@ -224,8 +200,6 @@ Os valores estão em milhares de dólares por ano e representam a renda média p
 
 Esse indicador representa o volume de pessoas economicamente ativas em cada estado.
 
-<br/>
-
 
 ### 💲 Renda Média vs Volume de Mercado
 
@@ -241,8 +215,6 @@ Essa visualização permite identificar:
 - e estados que conseguem equilibrar escala e renda  
 
 A análise destaca o equilíbrio entre quantidade e qualidade do consumo, sem redundância de métricas derivadas.
-
-<br/>
 
 
 ### 📈 Dashboard Consolidado
@@ -265,9 +237,6 @@ Na prática, a análise mostra que:
 - mercados mais ricos nem sempre possuem escala suficiente  
 - os mercados mais atrativos são aqueles que equilibram essas duas dimensões  
 
-<br/>
-
-
 ### 💡 Conclusão
 
 A identificação de oportunidades de mercado exige olhar simultaneamente para tamanho e capacidade de consumo.
@@ -279,16 +248,12 @@ Ao estruturar os dados dessa forma, é possível:
 
 O dashboard, portanto, não apenas apresenta dados, mas apoia decisões mais estratégicas e fundamentadas.
 
-<br/>
-
 
 ### 📦 Artefatos Gerados
 
 - 🎥 [Video demonstrativo](https://www.youtube.com/watch?v=Sjp65eyzPPk)
 
 - 🎲 [Base de dados utilizada](https://www.kaggle.com/datasets/irs/individual-income-tax-statistics)
-
-<br/>
 
 
 ### 📋 Checklist de Tarefas e Contribuições
@@ -302,7 +267,5 @@ O dashboard, portanto, não apenas apresenta dados, mas apoia decisões mais est
 | Orquestração com Airflow |Gustavo/Leonardo|||🟢||
 | Visualização com Metabase |Camila|||🟢||
 | Uso de containers |Lucca|||🟢||
-
-<br/>
 
 --- 
